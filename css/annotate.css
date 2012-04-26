@@ -1,0 +1,80 @@
+.annotate-table-question-label {
+    padding-left:15px;
+    background-repeat:no-repeat;
+    font-size:18px;
+    background-position:0px 6px;
+}
+
+.annotate-table-question-label.annotate-expandable {
+    background-image: url('images/triangle-right.png');
+}
+
+.annotate-table-question-label.annotate-expandable.annotate-expanded {
+    background-image: url('images/triangle-down.png');
+}
+
+.annotate-row-label {
+    font-size:18px;
+}
+
+.annotate {
+    text-align:center;
+}
+
+.annotate-select-sample-list {
+    display:inline-block;
+}
+
+.annotate-sample {
+    text-align:left;
+}
+
+.annotate-sample-image {
+    text-align:center;
+}
+
+.annotate-sample-pager ul li {
+    display:inline;
+}
+
+.annotate-sample-pager ul li:before {
+    content: " | ";
+}
+
+.annotate-sample-pager ul li:first-child:before {
+    content: "";
+}
+
+.annotate-sample-pager ul li.annotate-sample-current a:link,
+.annotate-sample-pager ul li.annotate-sample-current a:visited{
+    font-weight:bold;
+    color:black;
+}
+
+.annotate-action-links {
+    text-align:center;
+}
+
+.annotate-table {
+    text-align:left;
+    margin:10px auto;
+    border-collapse:collapse;
+    border:1px solid black;
+}
+
+.annotate-table th,
+.annotate-table td {
+    border:1px solid black;
+}
+
+.annotate-table th {
+    background-color:#d3d3d3;
+}
+
+.annotate-my-responses-table {
+    margin-bottom:30px;
+}
+
+.annotate h2.main {
+    padding-bottom:15px;
+}
