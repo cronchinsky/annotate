@@ -34,6 +34,7 @@ require_once(dirname(__FILE__).'/lib.php');
 require_once(dirname(__FILE__).'/annotate_question_form.php');
 require_once(dirname(__FILE__).'/annotate_weight_form.php');
 
+
 // Pull the aid and/or sid from the url.
 $aid = optional_param('aid', 0, PARAM_INT); // annotate ID
 $qid = optional_param('qid',0,PARAM_INT);
@@ -44,9 +45,11 @@ if (!$annotate) {
   print_error('That annotate activity does not exist!');
 }
 
+
+
 // Get the question from the qid
 $question = $DB->get_record('annotate_question', array('id' => $qid));
-if (!question) {
+if (!$question) {
   print_error('That question does not exist!');
 }
 
@@ -61,8 +64,17 @@ else {
 }
 
 
-
 require_login($course, true, $cm);
+/// Print the page header
+$PAGE->set_url('/mod/annotate/editquestion.php', array('aid' => $annotate->id, 'qid' => $question->id));
+$PAGE->set_title("Editing Prompt");
+$PAGE->set_heading(format_string($course->fullname));
+$PAGE->set_context($context);
+$PAGE->requires->js('/mod/annotate/scripts/jquery.min.js');
+$PAGE->requires->js('/mod/annotate/scripts/annotate-question-edit.js');
+annotate_set_display_type($annotate);
+
+
 $context = get_context_instance(CONTEXT_MODULE, $cm->id);
 add_to_log($course->id, 'annotate', 'view', "editquestions.php?aid=$aid", 'Add / Edit Prompts', $cm->id);
 
@@ -87,21 +99,12 @@ $question->options = implode("\r\n",unserialize($question->options));
 $mform->set_data($question);
 
 
-/// Print the page header
-$PAGE->set_url('/mod/annotate/editquestion.php', array('aid' => $annotate->id, 'qid' => $question->id));
-$PAGE->set_title("Editing Prompt $question->name");
-$PAGE->set_heading(format_string($course->fullname));
-$PAGE->set_context($context);
-$PAGE->requires->js('/mod/annotate/scripts/jquery.min.js');
-$PAGE->requires->js('/mod/annotate/scripts/annotate-question-edit.js');
-annotate_set_display_type($annotate);
-
 // Output starts here
 echo $OUTPUT->header();
 
 
 echo "<div class='mform'><fieldset class='annotate-add-question-fieldset'><legend>Edit Prompt</legend><div class='annotate-add-question-content'></div>";
-if ($form_error) {
+if (isset($form_error) && $form_error != "") {
   echo "<p class='annotate-form-error'>$form_error</p>";
 }
 

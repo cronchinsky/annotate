@@ -3,7 +3,7 @@
     background-repeat:no-repeat;
     font-size:18px;
     background-position:0px 6px;
-}
+} 
 
 .annotate-table-question-label.annotate-expandable {
     background-image: url('images/triangle-right.png');
@@ -15,11 +15,52 @@
 
 .annotate-row-label {
     font-size:18px;
+    text-align: center;
+    width: 10%;
 }
 
-.annotate {
-    text-align:center;
+.annotate-table-question-response {
+    width: 90%;
 }
+
+
+.annotate-wrapper {
+    width: 90%;
+	margin: 0 auto;
+	text-align: left;
+	padding: 20px 20px 10px 20px;
+	border: 1px solid #d3d3d3;
+	border-radius: 10px;
+	margin-bottom: 20px;
+}
+
+.annotate-wrapper fieldset {
+	width: 95%;
+	margin: 5px auto;
+}
+
+.annotate .fitem .felement {
+    margin-left: 0;
+    width: 100%;
+}
+
+.annotate-manage-form-wrapper {
+	padding: 20px;
+	border: 1px solid #dddddd;
+	background-color: #fafafa;
+}
+
+.annotate-message {
+	text-align: center;
+	color: red;
+	
+}
+#annotateintro {
+	border: none;
+	padding: 0;
+	
+}
+
 
 .annotate-select-sample-list {
     display:inline-block;
@@ -30,7 +71,21 @@
 }
 
 .annotate-sample-image {
-    text-align:center;
+    text-align: center;
+    height: 200px;
+    overflow: auto;
+    width: 100%;
+}
+
+.annotate-sample-image h4 {
+}
+
+.annotate-sample-pager {
+	text-align: left;
+}
+
+.annotate-sample-pager.responses {
+	text-align: center;
 }
 
 .annotate-sample-pager ul li {
@@ -52,12 +107,25 @@
 }
 
 .annotate-action-links {
-    text-align:center;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.annotate-action-links span {
+    padding: 3px 10px;
+    margin: 0 5px;
+    border: 1px solid #eeeeee;
+    background-color: #FAF4D9;
+    border-radius: 10px;
+}
+
+.annotate-action-links span:hover {
+	background-color: #eeeeee;
 }
 
 .annotate-table {
     text-align:left;
-    margin:10px auto;
+    margin:10px;
     border-collapse:collapse;
     border:1px solid black;
 }
@@ -73,8 +141,17 @@
 
 .annotate-my-responses-table {
     margin-bottom:30px;
+    width: 95%;
+}
+
+.annotate-my-responses-table .yes {
+	text-align: center;
 }
 
 .annotate h2.main {
     padding-bottom:15px;
+}
+
+.annotate-delete-link {
+	float: right;
 }

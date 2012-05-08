@@ -407,7 +407,7 @@ function annotate_add_question_to_form($question, &$mform, $index) {
     }
   }
   else {
-    $mform->addElement('textarea',"answer-$question->id", '', 'wrap="virtual" rows="5" cols="50"');
+    $mform->addElement('textarea',"answer-$question->id", '', 'wrap="virtual" rows="5" cols="100"');
   }
 }
 

@@ -64,6 +64,17 @@ require_login($course, true, $cm);
 $context = get_context_instance(CONTEXT_MODULE, $cm->id);
 add_to_log($course->id, 'annotate', 'view', "editquestions.php?aid=$aid", 'Add / Edit Prompts', $cm->id);
 
+/// Print the page header
+$PAGE->set_url('/mod/annotate/editquestions.php', array('aid' => $cm->id));
+$PAGE->set_title("Manage Prompts for $annotate->name");
+$PAGE->set_heading(format_string($course->fullname));
+$PAGE->set_context($context);
+$PAGE->requires->js('/mod/annotate/scripts/jquery.min.js');
+$PAGE->requires->js('/mod/annotate/scripts/annotate-question-edit.js');
+$PAGE->requires->css('/mod/annotate/css/annotate.css');
+annotate_set_display_type($annotate);
+
+
 require_capability('mod/annotate:edit',$context);
 
 // Pull down all existing questions tied to this problem.
@@ -105,16 +116,6 @@ if ($new_question = $mform_question->get_data()) {
   }
 }
 
-/// Print the page header
-$PAGE->set_url('/mod/annotate/editquestions.php', array('aid' => $cm->id));
-$PAGE->set_title("Manage Prompts for $annotate->name");
-$PAGE->set_heading(format_string($course->fullname));
-$PAGE->set_context($context);
-$PAGE->requires->js('/mod/annotate/scripts/jquery.min.js');
-$PAGE->requires->js('/mod/annotate/scripts/annotate-question-edit.js');
-$PAGE->requires->css('/mod/annotate/css/annotate.css');
-annotate_set_display_type($annotate);
-
 
 // Output starts here
 echo $OUTPUT->header();
@@ -124,7 +125,7 @@ $mform_weight->display();
 
 
 
-if ($form_error) {
+if (isset($form_error) && $form_error != "") {
   echo "<p class='annotate-form-error'>$form_error</p>";
 }
 
@@ -133,7 +134,7 @@ $mform_question->display();
 echo "</div></fieldset>";
 
 echo "<div class='annotate-action-links'>";
-echo "<div class='annotate-action-link'><a href='view.php?a=$annotate->id'>Back to the Activity</a></div>";
+echo "<span class='annotate-action-link'><a href='view.php?a=$annotate->id'>Back to the Activity</a></span>";
 echo "</div>";
 // Finish the page
 echo $OUTPUT->footer();

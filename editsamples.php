@@ -53,12 +53,24 @@ require_login($course, true, $cm);
 $context = get_context_instance(CONTEXT_MODULE, $cm->id);
 add_to_log($course->id, 'annotate', 'view', "editsamples.php?aid=$aid", $annotate->name, $cm->id);
 
+// Set the page header.
+$PAGE->set_url('/mod/annotate/editsamples.php', array('aid' => $aid, 'sid' => $sid));
+$PAGE->set_title(format_string("Editing Sample"));
+$PAGE->set_heading(format_string($course->fullname));
+$PAGE->set_context($context);
+$PAGE->add_body_class('annotate-sample-edit-form');
+
+// annotate CSS styles.
+$PAGE->requires->css('/mod/annotate/css/annotate.css');
+
+annotate_set_display_type($annotate);
 
 // Only editors can see this page.
 require_capability('mod/annotate:edit', $context);
 
 // All student samples for the activity.
 $samples = $DB->get_records('annotate_sample', array('aid' => $annotate->id),'name');
+$sample = NULL;
 
 // If there's a sid in the url, we're editing an exisitng sample
 if ($sid != 0) {
@@ -81,7 +93,8 @@ if ($mform->is_cancelled()) {
   redirect("annotate.php?id=$aid");
 }
 else {
-
+  
+  if ($sample) {
   //Set up the draft area.
   $draftitemid = file_get_submitted_draft_itemid('attachments');
   file_prepare_draft_area($draftitemid, $context->id, 'mod_annotate', 'sample', $sample->id, array('subdirs' => 0, 'maxbytes' => $maxbytes, 'maxfiles' => 50));
@@ -91,7 +104,7 @@ else {
 
   // Put the existing data into the form.
   $mform->set_data($sample);
-  
+  }
   // If there's data in the form...
   if ($results = $mform->get_data()) {
     
@@ -100,8 +113,8 @@ else {
       // Save the new sample as a new record.
       $sample->aid = $aid;
       $sample->name = $results->samplename;
-      $new_record = $DB->insert_record('annotate_sample', $sample);
-      file_save_draft_area_files($results->attachments, $context->id, 'mod_annotate', 'sample', $new_record);
+      $sample = $DB->insert_record('annotate_sample', $sample);
+      file_save_draft_area_files($results->attachments, $context->id, 'mod_annotate', 'sample', $sample);
     }
     else {
       // We're updaing an existing sample.
@@ -110,28 +123,19 @@ else {
       file_save_draft_area_files($results->attachments, $context->id, 'mod_annotate', 'sample', $sample->id);
     }
     // Now redirect back to this page with the updated data.
-    redirect("editsamples.php?aid=$aid&sid=$sample->id");
+    redirect("editsamples.php?aid=$aid");
   }
 }
 
-// Set the page header.
-$PAGE->set_url('/mod/annotate/editsamples.php', array('aid' => $aid, 'sid' => $sid));
-$PAGE->set_title(format_string("Editing Sample"));
-$PAGE->set_heading(format_string($course->fullname));
-$PAGE->set_context($context);
-$PAGE->add_body_class('annotate-sample-edit-form');
 
-// annotate CSS styles.
-$PAGE->requires->css('/mod/annotate/css/annotate.css');
-
-annotate_set_display_type($annotate);
 
 // Begin page output
 echo $OUTPUT->header();
-echo $OUTPUT->heading("Manage Samples for {$annotate->name}");
+echo $OUTPUT->heading("Manage Student Work Samples for {$annotate->name}");
 
-
-echo "<p>Select a sample to edit, or click \"Add New\" to create a new sample to annotate.</p>";
+echo "<div class='annotate-wrapper'>";
+echo "<div class='annotate-sample-pager'>";
+echo "<h3>Select a sample to edit, or click \"Add New\" to create a new sample to annotate.</h3>";
 echo "<ul class='annotate-sample-pager'>";
 foreach ($samples as $sample) {
   $class = ($sid == $sample->id) ? "class=\"annotate-pager-current\"" : ""; 
@@ -140,19 +144,22 @@ foreach ($samples as $sample) {
 $class = (!$sid) ? ' class="annotate-pager-current" ' : "";
 echo '<li' . $class . '><a href="' . $CFG->wwwroot . '/mod/annotate/editsamples.php?aid=' . $annotate->id . '">Add New</a></li>';
 echo "</ul>";
-
+echo "</div>";
 echo "<div class='annotate-manage-form-wrapper'>";
-if ($sid) echo $OUTPUT->heading("Editing $sample->name");
-else echo $OUTPUT->heading("Adding a New Sample");
+if ($sid) echo "<p class='annotate-delete-link'><a href='deletesample.php?sid=$sid'>Delete this sample</a></p>";
+if ($sid) echo "<h4>Editing sample $sample->name:</h4>";
+else echo "<h4>Adding a new sample:</h4>";
+
+
 
 //displays the form
 $mform->display();
-if ($sid) echo "<p class='annotate-delete-link'><a href='deletesample.php?sid=$sid'>Delete This Sample</a></p>";
+
+echo "</div>";
 echo "</div>";
 
-
 echo "<div class='annotate-action-links'>";
-echo "<div class='annotate-action-link'><a href='view.php?a=$annotate->id'>Back to the Activity</a></div>";
+echo "<span class='annotate-action-link'><a href='view.php?a=$annotate->id'>Back to the Activity</a></span>";
 echo "</div>";
 // Finish the page
 echo $OUTPUT->footer();

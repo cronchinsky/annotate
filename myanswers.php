@@ -54,8 +54,9 @@ annotate_set_display_type($annotate);
 
 echo $OUTPUT->header();
 if ($has_open) {
-  echo $OUTPUT->heading('Open Ended Responses');
-  echo "<div class='annotate'>";
+  echo $OUTPUT->heading('Class Chart');
+  echo "<div class='annotate-wrapper'>";
+  echo '<h4>Open Ended Responses</h4>';
   echo "<table class='annotate-my-responses-table annotate-table annotate-open-table'>";
   echo "<tr>";
   echo "<th>Student Work Sample</th>";
@@ -69,7 +70,12 @@ if ($has_open) {
         if ($question->type == "O") {
           echo "<div>";
           echo "<a href='#' class='annotate-table-question-label'>$question->prompt</a>";
-          echo "<div class='annotate-table-question-response'>" . $answer_index[$sample->id][$question->id]->answer . "</div>";
+          echo "<div class='annotate-table-question-response'>";
+          if (isset($answer_index[$sample->id][$question->id]->answer)) {
+            echo $answer_index[$sample->id][$question->id]->answer;
+          }
+          echo "</div>";
+          
           echo "</div>";
         }
       }
@@ -79,7 +85,7 @@ if ($has_open) {
   echo "</table>";
 }
 if ($has_mc) {
-  echo $OUTPUT->heading('Multiple Choice Responses');
+  echo '<h4>Multiple Choice Responses</h4>';
   echo "<table class='annotate-my-responses-table annotate-table annotate-mc-table'>";
   echo "<tr>";
   echo "<th rowspan='2'>Student Work Sample</th>";
@@ -105,8 +111,8 @@ if ($has_mc) {
     foreach ($questions as &$question) {
       $option_index = 0;
       foreach ($question->options as $option) {
-        if ($answer_index[$sample->id][$question->id][$option_index] && $answer_index[$sample->id][$question->id][$option_index] == 1) {
-          echo "<td>Y</td>";
+        if (isset($answer_index[$sample->id][$question->id][$option_index]) && $answer_index[$sample->id][$question->id][$option_index] == 1) {
+          echo "<td class='yes'>Y</td>";
         }
         else {
           echo "<td></td>";
@@ -119,8 +125,8 @@ if ($has_mc) {
   }
   echo "</table>";
 }
-echo "<div class='annotate-action-links'>";
-echo "<div class='annotate-action-link'><a href='view.php?a=$annotate->id'>Back to the Activity</a></div>";
 echo "</div>";
+echo "<div class='annotate-action-links'>";
+echo "<span class='annotate-action-link'><a href='view.php?a=$annotate->id'>Annotate activity index</a></span>";
 echo "</div>";
 echo $OUTPUT->footer();

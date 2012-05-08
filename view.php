@@ -69,17 +69,15 @@ annotate_set_display_type($annotate);
 // Output starts here
 echo $OUTPUT->header();
 
-if ($annotate->intro) { // Conditions to show the intro can change to look for own settings or whatever
-    echo $OUTPUT->box(format_module_intro('annotate', $annotate, $cm->id), 'generalbox mod_introbox', 'annotateintro');
-}
 
 // Replace the following lines with you own code
 echo $OUTPUT->heading($annotate->name);
-echo "<div class='annotate'>";
-echo "<div class='annotate-select-sample-intro'>";
-echo "<p>Select a sample to annotate</p>";
-echo "</div>";
-echo "<div class='annotate-select-sample-list'>";
+echo "<div class='annotate-wrapper'>";
+if ($annotate->intro) { // Conditions to show the intro can change to look for own settings or whatever
+    echo $OUTPUT->box(format_module_intro('annotate', $annotate, $cm->id), 'generalbox mod_introbox', 'annotateintro');
+}
+echo "<div class='annotate-sample-pager'>";
+echo "<h4>Select a work sample to annotate</h4>";
 if ($samples) {
   echo "<ul>";
   foreach ($samples as $sample) {
@@ -92,16 +90,16 @@ else {
 }
 echo "</div>";
 
-
-echo "<div class='annotate-action-links'>";
-echo "<div class='annotate-action-link'><a href='myanswers.php?aid=$annotate->id'>Class Chart</a></div>";
-if (has_capability('mod/annotate:edit', $context)) {
-  echo "<div class='annotate-action-link'><a href='editsamples.php?aid=$annotate->id'>Manage Student Work Samples</a></div>";
-}
-if (has_capability('mod/annotate:edit', $context)) {
-  echo "<div class='annotate-action-link'><a href='editquestions.php?aid=$annotate->id'>Manage Prompts</a></div>";
-}
 echo "</div>";
+echo "<div class='annotate-action-links'>";
+echo "<span class='annotate-action-link'><a href='myanswers.php?aid=$annotate->id'>Class chart</a></span>";
+if (has_capability('mod/annotate:edit', $context)) {
+  echo "<span class='annotate-action-link'><a href='editsamples.php?aid=$annotate->id'>Manage student work samples</a></span>";
+}
+if (has_capability('mod/annotate:edit', $context)) {
+  echo "<span class='annotate-action-link'><a href='editquestions.php?aid=$annotate->id'>Manage prompts</a></span>";
+}
+
 echo "</div>";
 // Finish the page
 echo $OUTPUT->footer();

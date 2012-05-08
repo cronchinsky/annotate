@@ -125,7 +125,7 @@ if ($has_mc) {
     foreach ($questions as &$question) {
       $option_index = 0;
       foreach ($question->options as $option) {
-        if ($answer_index[$user->id][$question->id][$option_index] && $answer_index[$user->id][$question->id][$option_index] == 1) {
+        if (isset($answer_index[$user->id][$question->id][$option_index]) && $answer_index[$user->id][$question->id][$option_index] == 1) {
           echo "<td>Y</td>";
         }
         else {
@@ -140,7 +140,7 @@ if ($has_mc) {
   echo "</table>";
 }
 echo "<div class='annotate-action-links'>";
-echo "<div class='annotate-action-link'><a href='sample.php?sid=$this_sample->id'>Back to the Sample</a></div>";
-echo "<div class='annotate-action-link'><a href='view.php?a=$annotate->id'>Back to the Activity</a></div>";
+echo "<span class='annotate-action-link'><a href='sample.php?sid=$this_sample->id'>Back to the Sample</a></span>";
+echo "<span class='annotate-action-link'><a href='view.php?a=$annotate->id'>Back to the Activity</a></span>";
 echo "</div>";
 echo $OUTPUT->footer();

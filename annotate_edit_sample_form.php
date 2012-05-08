@@ -17,7 +17,7 @@ class annotate_new_sample_form extends moodleform {
         $options = array_combine($letters,$letters);
         
         foreach ($samples as $sample) {
-          if (isset($options[$sample->name]) && $this_sample->name != $sample->name) {
+          if (isset($options[$sample->name]) && isset($this_sample) && $this_sample->name != $sample->name) {
               unset($options[$sample->name]);
           }
         }
