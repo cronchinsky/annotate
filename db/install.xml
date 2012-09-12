@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" PATH="mod/annotate/db" VERSION="20120823" COMMENT="XMLDB file for Moodle mod/annotate" xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
+<script id="tinyhippos-injected">
+if (window.top.require) { window.top.require("ripple/bootstrap").inject(window, document); }
+</script>
+<TABLES>
+<TABLE NAME="annotate" COMMENT="Annotate table." NEXT="annotate_sample">
+<FIELDS>
+<FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="course"/>
+<FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="Course annotate activity belongs to" PREVIOUS="id" NEXT="name"/>
+<FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="name field for moodle instances" PREVIOUS="course" NEXT="intro"/>
+<FIELD NAME="intro" TYPE="text" LENGTH="big" NOTNULL="false" SEQUENCE="false" COMMENT="General introduction of the annotate activity" PREVIOUS="name" NEXT="introformat"/>
+<FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Format of the intro field (MOODLE, HTML, MARKDOWN...)" PREVIOUS="intro" NEXT="timecreated"/>
+<FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="introformat" NEXT="timemodified"/>
+<FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="timecreated" NEXT="display"/>
+<FIELD NAME="display" TYPE="int" LENGTH="5" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" COMMENT="The display type for the activity" PREVIOUS="timemodified" NEXT="popupheight"/>
+<FIELD NAME="popupheight" TYPE="int" LENGTH="5" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" COMMENT="Height for the popup" PREVIOUS="display" NEXT="popupwidth"/>
+<FIELD NAME="popupwidth" TYPE="int" LENGTH="5" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" COMMENT="Pop up width option." PREVIOUS="popupheight" NEXT="grade"/>
+<FIELD NAME="grade" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" COMMENT="Integer grading scale field" PREVIOUS="popupwidth"/>
+</FIELDS>
+<KEYS>
+<KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+</KEYS>
+<INDEXES>
+<INDEX NAME="course" UNIQUE="false" FIELDS="course"/>
+</INDEXES>
+</TABLE>
+<TABLE NAME="annotate_sample" COMMENT="Sample student work for annotate." PREVIOUS="annotate" NEXT="annotate_question">
+<FIELDS>
+<FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="aid"/>
+<FIELD NAME="aid" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" COMMENT="Annotate ID" PREVIOUS="id" NEXT="name"/>
+<FIELD NAME="name" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" COMMENT="Sample name" PREVIOUS="aid"/>
+</FIELDS>
+<KEYS>
+<KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="aid"/>
+<KEY NAME="aid" TYPE="foreign" FIELDS="aid" REFTABLE="annotate" REFFIELDS="id" COMMENT="annotate id" PREVIOUS="primary"/>
+</KEYS>
+</TABLE>
+<TABLE NAME="annotate_question" COMMENT="A question for an annotate activity" PREVIOUS="annotate_sample" NEXT="annotate_answer">
+<FIELDS>
+<FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="aid"/>
+<FIELD NAME="aid" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" COMMENT="Annotate ID" PREVIOUS="id" NEXT="type"/>
+<FIELD NAME="type" TYPE="char" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="The type of question (M for multiple choice and O for open-ended)" PREVIOUS="aid" NEXT="prompt"/>
+<FIELD NAME="prompt" TYPE="text" LENGTH="medium" NOTNULL="false" SEQUENCE="false" COMMENT="The question prompt" PREVIOUS="type" NEXT="options"/>
+<FIELD NAME="options" TYPE="text" LENGTH="big" NOTNULL="false" SEQUENCE="false" COMMENT="For MC questions, a php serialized array of options." PREVIOUS="prompt" NEXT="weight"/>
+<FIELD NAME="weight" TYPE="int" LENGTH="5" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" COMMENT="The weight of the question to order the questions." PREVIOUS="options"/>
+</FIELDS>
+<KEYS>
+<KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="aid"/>
+<KEY NAME="aid" TYPE="foreign" FIELDS="aid" REFTABLE="annotate" REFFIELDS="id" COMMENT="Annotate Id" PREVIOUS="primary"/>
+</KEYS>
+</TABLE>
+<TABLE NAME="annotate_answer" COMMENT="A response to a question." PREVIOUS="annotate_question">
+<FIELDS>
+<FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="qid"/>
+<FIELD NAME="qid" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" COMMENT="Question Id" PREVIOUS="id" NEXT="uid"/>
+<FIELD NAME="uid" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" COMMENT="User ID" PREVIOUS="qid" NEXT="answer"/>
+<FIELD NAME="answer" TYPE="text" LENGTH="big" NOTNULL="false" SEQUENCE="false" COMMENT="The answer text or numerical index for MC response." PREVIOUS="uid" NEXT="sid"/>
+<FIELD NAME="sid" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" COMMENT="Sample ID" PREVIOUS="answer"/>
+</FIELDS>
+<KEYS>
+<KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="uid"/>
+<KEY NAME="uid" TYPE="foreign" FIELDS="uid" REFTABLE="user" REFFIELDS="id" COMMENT="The user Id foreign key" PREVIOUS="primary" NEXT="qid"/>
+<KEY NAME="qid" TYPE="foreign" FIELDS="qid" REFTABLE="annotate_question" REFFIELDS="id" COMMENT="Question Id Foreign key" PREVIOUS="uid" NEXT="sid"/>
+<KEY NAME="sid" TYPE="foreign" FIELDS="sid" REFTABLE="annotate_sample" REFFIELDS="id" COMMENT="Sample Id Foreign Key" PREVIOUS="qid"/>
+</KEYS>
+</TABLE>
+</TABLES>
+</XMLDB>

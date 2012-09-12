@@ -1,0 +1,163 @@
+.annotate-table-question-label {
+    padding-left:15px;
+    background-repeat:no-repeat;
+    font-size:16px;
+    background-position:0px 6px;
+} 
+
+.annotate-table-question-label.annotate-expandable {
+    background-image: url('images/triangle-right.png');
+}
+
+.annotate-table-question-label.annotate-expandable.annotate-expanded {
+    background-image: url('images/triangle-down.png');
+}
+
+.annotate-row-label {
+    font-size:18px;
+    text-align: center;
+    width: 10%;
+}
+
+.annotate-row-label-user {
+    font-size:14px;
+    text-align: right;
+    width: 10%;
+}
+.annotate-table-question-response {
+    width: 90%;
+}
+
+
+.annotate-wrapper {
+    width: 90%;
+	margin: 0 auto;
+	text-align: left;
+	padding: 20px 20px 10px 20px;
+	border: 1px solid #d3d3d3;
+	border-radius: 10px;
+	margin-bottom: 20px;
+}
+
+.annotate-wrapper fieldset {
+	width: 95%;
+	margin: 5px auto;
+}
+
+.annotate .fitem .felement {
+    margin-left: 0;
+    width: 100%;
+}
+
+.annotate-manage-form-wrapper {
+	padding: 20px;
+	border: 1px solid #dddddd;
+	background-color: #fafafa;
+}
+
+.annotate-message {
+	text-align: center;
+	color: red;
+	
+}
+#annotateintro {
+	border: none;
+	padding: 0;
+	
+}
+
+
+.annotate-select-sample-list {
+    display:inline-block;
+}
+
+.annotate-sample {
+    text-align:left;
+}
+
+.annotate-sample-image {
+    text-align: center;
+    height: 200px;
+    overflow: auto;
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.annotate-sample-image h4 {
+}
+
+.annotate-sample-pager {
+	text-align: left;
+}
+
+.annotate-sample-pager.responses {
+	text-align: center;
+}
+
+.annotate-sample-pager ul li {
+    display:inline;
+}
+
+.annotate-sample-pager ul li:before {
+    content: " | ";
+}
+
+.annotate-sample-pager ul li:first-child:before {
+    content: "";
+}
+
+.annotate-sample-pager ul li.annotate-sample-current a:link,
+.annotate-sample-pager ul li.annotate-sample-current a:visited{
+    font-weight:bold;
+    color:black;
+}
+
+.annotate-action-links {
+    margin: 20px auto;
+    text-align: center;
+}
+
+.annotate-action-links span {
+    padding: 3px 10px;
+    margin: 0 5px;
+    border: 1px solid #eeeeee;
+    background-color: #FAF4D9;
+    border-radius: 10px;
+}
+
+.annotate-action-links span:hover {
+	background-color: #eeeeee;
+}
+
+.annotate-table {
+    text-align:left;
+    margin:10px 10px 30px 10px;
+    border-collapse:collapse;
+    border:1px solid black;
+}
+
+.annotate-table th,
+.annotate-table td {
+    border:1px solid black;
+}
+
+.annotate-table th {
+    background-color:#d3d3d3;
+}
+
+.annotate-my-responses-table {
+    margin-bottom:30px;
+    width: 95%;
+}
+
+.annotate-my-responses-table .yes {
+	text-align: center;
+}
+
+.annotate h2.main {
+    padding-bottom:15px;
+}
+
+.annotate-delete-link {
+	float: right;
+}
