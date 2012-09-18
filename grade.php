@@ -20,7 +20,7 @@ if (! $course = $DB->get_record("course", array("id"=>$annotate->course))) {
 require_login($course, false, $cm);
 
 if (has_capability('mod/annotate:edit', get_context_instance(CONTEXT_MODULE, $cm->id))) {
-    redirect('showgrades.php?id='.$cm->id);
+    redirect('view.php?id='.$cm->id);
 } else {
     redirect('view.php?id='.$cm->id);
 }
