@@ -161,3 +161,8 @@
 .annotate-delete-link {
 	float: right;
 }
+
+
+.annotate-my-responses-table tr .first {
+    width:20%;
+}

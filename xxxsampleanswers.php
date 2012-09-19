@@ -1,7 +1,7 @@
 <?php
 
-require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
-require_once(dirname(__FILE__) . '/lib.php');
+require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
+require_once(dirname(__FILE__).'/lib.php');
 
 $sid = optional_param('sid', 0, PARAM_INT);
 
@@ -11,7 +11,7 @@ if (!$this_sample) {
 }
 
 $annotate = $DB->get_record('annotate', array('id' => $this_sample->aid));
-$course = $DB->get_record('course', array('id' => $annotate->course));
+$course = $DB->get_record('course',array('id' => $annotate->course));
 $cm = get_coursemodule_from_instance('annotate', $annotate->id, $course->id, false, MUST_EXIST);
 
 if (!$annotate || !$course || !$cm) {
@@ -22,10 +22,10 @@ require_login($course, true, $cm);
 $context = get_context_instance(CONTEXT_MODULE, $cm->id);
 add_to_log($course->id, 'sort', 'view', "sampleanswers.php?sid=$sid", $annotate->name, $cm->id);
 
-$samples = $DB->get_records('annotate_sample', array('aid' => $annotate->id), 'name');
+$samples = $DB->get_records('annotate_sample', array('aid' => $annotate->id),'name');
 $questions = $DB->get_records('annotate_question', array('aid' => $annotate->id), 'weight');
 $qids = array_keys($questions);
-$answers = $DB->get_records_select('annotate_answer', "sid = $this_sample->id AND qid IN (" . implode(",", $qids) . ") ");
+$answers = $DB->get_records_select('annotate_answer', "sid = $this_sample->id AND qid IN (" . implode(",",$qids) . ") ");
 
 $files = $DB->get_records_select('files', "filesize <> 0 AND component = 'mod_annotate' AND contextid = '$context->id' AND filearea= 'sample' AND itemid = $sid");
 foreach ($files as $file) {
@@ -34,28 +34,26 @@ foreach ($files as $file) {
 
 $has_mc = false;
 $has_open = false;
-foreach ($questions as $id => $question) {
-  $questions[$id]->options = unserialize($questions[$id]->options);
-  if ($questions[$id]->type == 'M')
-    $has_mc = true;
-  else
-    $has_open = true;
+foreach ($questions as &$question) {
+ $question->options = unserialize($question->options);
+ if ($question->type == 'M') $has_mc = true;
+ else $has_open = true;
 }
 
 $uids = array();
 $answer_index = array(array());
 foreach ($answers as $answer) {
   if ($questions[$answer->qid]->type == 'O') {
-    $answer_index[$answer->qid][$answer->uid] = $answer;
+    $answer_index[$answer->uid][$answer->qid] = $answer;
   }
   else {
-    $answer_index[$answer->qid][$answer->uid][$answer->answer] = 1;
+    $answer_index[$answer->uid][$answer->qid][$answer->answer] = 1;
   }
-
+  
   $uids[] = $answer->uid;
 }
 
-$users = $DB->get_records_list('user', 'id', $uids);
+$users = $DB->get_records_list('user','id', $uids);
 
 $PAGE->set_url('/mod/annotate/view.php', array('id' => $cm->id));
 $PAGE->set_title(format_string($annotate->name));
@@ -85,50 +83,67 @@ echo "</div>";
 if ($has_open) {
   echo "<h4>Open Ended Responses</h4>";
   echo "<table class='annotate-sample-responses-table annotate-table annotate-open-table'>";
-  foreach ($questions as $question) {
-    if ($question->type == 'O') {
-      if (isset($answer_index[$question->id])) {
-        echo "<tr><th colspan='2'>$question->prompt</th></tr>";
-        echo "<tr><th>Participant</th><th>Response</th></tr>";
-        foreach ($answer_index[$question->id] as $uid => $answer) {
-          echo "<tr><td class='annotate-row-label'>" . $users[$uid]->username . "</td>";
-          echo "<td>" . $answer->answer . "</td>";
-          echo "</tr>";
+  echo "<tr>";
+  echo "<th>Participant</th>";
+  echo "<th>Responses</th>";
+  echo "</tr>";
+  foreach ($users as $user) {
+    echo "<tr>";
+    echo "<td class='annotate-row-label-user'>$user->username</td>";
+    echo "<td>";
+      foreach ($questions as &$question) {
+        if ($question->type == "O") {
+          echo "<div>";
+          echo "<a href='#' class='annotate-table-question-label'>$question->prompt</a>";
+          echo "<div class='annotate-table-question-response'>" . $answer_index[$user->id][$question->id]->answer . "</div>";
+          echo "</div>";
         }
       }
-    }
+    echo "</td>";
+    echo "</tr>";
   }
   echo "</table>";
 }
 if ($has_mc) {
   echo "<h4>Multiple Choice Responses</h4>";
-  foreach ($questions as $question) {
-    if ($question->type == 'M') {
-      echo "<table class='annotate-sample-responses-table annotate-table annotate-mc-table'>";
-      echo "<tr><th colspan='" . (sizeof($question->options) + 1) . "'>" . $question->prompt . "</th></tr>";
-      echo "<tr>";
-      echo "<th>Participant</th>";
-      foreach ($question->options as $option) {
-        echo "<th>$option</th>";
-      }
-      if (isset($answer_index[$question->id])) {
-        foreach ($answer_index[$question->id] as $uid => $answer) {
-          echo "<tr>";
-          echo "<td class='annotate-row-label'>" . $users[$uid]->username . "</td>";
-          foreach ($question->options as $index => $option) {
-            if (isset($answer[$index])) {
-              echo "<td>Y</td>";
-            }
-            else {
-              echo "<td></td>";
-            }
-          }
-          echo "</tr>";
-        }
-      }
-      echo "</table>";
+  echo "<table class='annotate-my-responses-table annotate-table annotate-mc-table'>";
+  echo "<tr>";
+  echo "<th rowspan='2'>Participant</th>";
+  
+  foreach ($questions as &$question) {
+    if ($question->type == "M") {
+      echo "<th colspan='" . sizeof($question->options) . "'>$question->prompt</th>";
     }
   }
+  echo "</tr>";
+  echo "<tr>";
+  foreach ($questions as &$question) {
+    if ($question->type == "M") {
+      foreach ($question->options as $option) {
+        echo "<th>" . $option . "</th>";
+      }
+    }
+  }
+  echo "</tr>";
+  foreach ($users as $user) {
+    echo "<tr>";
+    echo "<td class='annotate-row-label-user'>$user->username</td>";
+    foreach ($questions as &$question) {
+      $option_index = 0;
+      foreach ($question->options as $option) {
+        if (isset($answer_index[$user->id][$question->id][$option_index]) && $answer_index[$user->id][$question->id][$option_index] == 1) {
+          echo "<td class='yes'>Y</td>";
+        }
+        else {
+          echo "<td></td>";
+        }
+        $option_index++;
+      }
+    }
+    
+    echo "</tr>";
+  }
+  echo "</table>";
 }
 echo "<div class='annotate-action-links'>";
 echo "<span class='annotate-action-link'><a href='sample.php?sid=$this_sample->id'>Back to the sample</a></span>";
