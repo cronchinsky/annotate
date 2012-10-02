@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <XMLDB xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" PATH="mod/annotate/db" VERSION="20120823" COMMENT="XMLDB file for Moodle mod/annotate" xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
-<script id="tinyhippos-injected">
-if (window.top.require) { window.top.require("ripple/bootstrap").inject(window, document); }
-</script>
 <TABLES>
 <TABLE NAME="annotate" COMMENT="Annotate table." NEXT="annotate_sample">
 <FIELDS>
