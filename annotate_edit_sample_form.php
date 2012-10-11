@@ -1,6 +1,7 @@
 <?php
-
-
+/**
+ * @file form for editing sames.
+ */
 require_once($CFG->libdir . "/formslib.php");
 
 class annotate_new_sample_form extends moodleform {
@@ -17,7 +18,7 @@ class annotate_new_sample_form extends moodleform {
         $options = array_combine($letters,$letters);
         
         foreach ($samples as $sample) {
-          if (isset($options[$sample->name]) && isset($this_sample) && $this_sample->name != $sample->name) {
+          if (isset($options[$sample->name]) && (isset($this_sample) && $this_sample->name != $sample->name) || !isset($this_sample))  {
               unset($options[$sample->name]);
           }
         }
