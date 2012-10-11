@@ -97,7 +97,7 @@ else {
   if ($sample) {
   //Set up the draft area.
   $draftitemid = file_get_submitted_draft_itemid('attachments');
-  file_prepare_draft_area($draftitemid, $context->id, 'mod_annotate', 'sample', $sample->id, array('subdirs' => 0, 'maxbytes' => $maxbytes, 'maxfiles' => 50));
+  file_prepare_draft_area($draftitemid, $context->id, 'mod_annotate', 'sample', $sample->id, array('subdirs' => 0, 'maxbytes' => 100000000, 'maxfiles' => 50));
 
   // This also helps with the form, since attachments is the form element name.
   $sample->attachments = $draftitemid;
