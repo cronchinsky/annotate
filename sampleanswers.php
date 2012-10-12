@@ -144,5 +144,5 @@ echo "<span class='annotate-action-link'><a href='sample.php?sid=$this_sample->i
 echo "<span class='annotate-action-link'><a href='view.php?a=$annotate->id'>Annotate activity index</a></span>";
 echo "</div>";
 echo "</div>";
-
+annotate_add_attribution_line();
 echo $OUTPUT->footer();

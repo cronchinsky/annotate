@@ -484,3 +484,12 @@ function annotate_set_display_type($annotate) {
       break;
   }
 } 
+
+/**
+ * Add the attribution.
+ */
+function annotate_add_attribution_line() {
+  echo "<div class='annotate-attribution'>";
+  echo "The development of this activity was sponsored by <a href='http://www2.edc.org/accessmath/'>Addressing Accessibility in Mathematics</a>";
+  echo "</div>";
+}

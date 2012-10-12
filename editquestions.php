@@ -136,5 +136,8 @@ echo "</div></fieldset>";
 echo "<div class='annotate-action-links'>";
 echo "<span class='annotate-action-link'><a href='view.php?a=$annotate->id'>Back to the Activity</a></span>";
 echo "</div>";
+
+annotate_add_attribution_line();
+
 // Finish the page
 echo $OUTPUT->footer();

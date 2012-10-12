@@ -100,4 +100,5 @@ if (has_capability('mod/annotate:edit', $context)) {
 
 echo "</div>";
 // Finish the page
+annotate_add_attribution_line();
 echo $OUTPUT->footer();

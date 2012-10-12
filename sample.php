@@ -136,4 +136,7 @@ echo "</div>";
 echo "</div>";
 
 echo "</div>";
+
+
+annotate_add_attribution_line();
 echo $OUTPUT->footer();
