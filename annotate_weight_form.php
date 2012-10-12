@@ -1,6 +1,9 @@
 <?php
 
-
+/**
+ * @file This form is for adjusting the weights of all of the prompts on the
+ * same page.
+ */
 
 require_once($CFG->libdir . "/formslib.php");
 
@@ -10,12 +13,16 @@ class annotate_weight_form extends moodleform {
          global $CFG;
         
         $mform =& $this->_form; // Don't forget the underscore! 
+        
+        // Pull in all of the prompts.
         $questions = $this->_customdata['questions'];
         
-        
+        // Create an array of possible choices for the weight.
         $range = range(-50,50);
         $options = array_combine($range,$range);
         
+        // Loop through the questions and create a div containing the 
+        // prompt and drop down for each.
         if (!empty($questions)) {
           $index = 1;
           foreach ($questions as $question) {

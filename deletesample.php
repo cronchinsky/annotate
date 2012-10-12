@@ -28,7 +28,6 @@ require_once(dirname(__FILE__) . '/lib.php');
 
 
 $sid = optional_param('sid', 0, PARAM_INT); // sample ID
-
 $confirm = optional_param('confirm', 0, PARAM_INT); // student work ID
 
 

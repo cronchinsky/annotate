@@ -1,6 +1,8 @@
 <?php
 
-
+/**
+ * @file form for editing a prompt.
+ */
 require_once($CFG->libdir . "/formslib.php");
 
 class annotate_question_form extends moodleform {
@@ -21,6 +23,7 @@ class annotate_question_form extends moodleform {
         $range = range(-50,50);
         $options = array_combine($range,$range);
         
+        // The weight controls the relative order or the prompts.
         $mform->addElement('select','weight','Weight',$options);
         $mform->setDefault('weight', 0);        //Default value
         
