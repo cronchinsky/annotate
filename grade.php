@@ -1,5 +1,7 @@
 <?php
-echo "GO";
+/**
+ * This is a stub file that doesn't really do anything besides redirect you to the view.php for the activity.
+ */
 require_once("../../config.php");
 $id   = required_param('id', PARAM_INT); // Course module ID
 

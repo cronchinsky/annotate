@@ -1,3 +1,6 @@
+/**
+ * Handles the expandable table rows in the reporting tables.
+ */
 $(document).ready(function () { 
     
    $('.annotate-table-question-response').hide();

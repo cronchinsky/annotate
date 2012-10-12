@@ -38,7 +38,7 @@ require_once(dirname(__FILE__).'/annotate_weight_form.php');
 $aid = optional_param('aid', 0, PARAM_INT); // annotate ID
 $delete_id = optional_param('deleteid',0,PARAM_INT);
 
-
+// If there's a delete_id, that means we're deleting a record
 if ($delete_id && $aid) {
   $DB->delete_records('annotate_question', array('id' => $delete_id));
   redirect("editquestions.php?aid=$aid");
@@ -74,7 +74,7 @@ $PAGE->requires->js('/mod/annotate/scripts/annotate-question-edit.js');
 $PAGE->requires->css('/mod/annotate/css/annotate.css');
 annotate_set_display_type($annotate);
 
-
+// Only editors should be able to do this.
 require_capability('mod/annotate:edit',$context);
 
 // Pull down all existing questions tied to this problem.

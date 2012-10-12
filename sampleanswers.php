@@ -1,15 +1,18 @@
 <?php
+/**
+ * Shows all users responses for this particular sample.
+ */
+
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 require_once(dirname(__FILE__) . '/lib.php');
 
+// Load all necessary objects from the sid parameter
 $sid = optional_param('sid', 0, PARAM_INT);
-
 $this_sample = $DB->get_record('annotate_sample', array('id' => $sid));
 if (!$this_sample) {
   print_error("That sample doesn't exist!");
 }
-
 $annotate = $DB->get_record('annotate', array('id' => $this_sample->aid));
 $course = $DB->get_record('course', array('id' => $annotate->course));
 $cm = get_coursemodule_from_instance('annotate', $annotate->id, $course->id, false, MUST_EXIST);
@@ -22,16 +25,18 @@ require_login($course, true, $cm);
 $context = get_context_instance(CONTEXT_MODULE, $cm->id);
 add_to_log($course->id, 'sort', 'view', "sampleanswers.php?sid=$sid", $annotate->name, $cm->id);
 
+// Get all samples / questions / answers / files.
 $samples = $DB->get_records('annotate_sample', array('aid' => $annotate->id), 'name');
 $questions = $DB->get_records('annotate_question', array('aid' => $annotate->id), 'weight');
 $qids = array_keys($questions);
 $answers = $DB->get_records_select('annotate_answer', "sid = $this_sample->id AND qid IN (" . implode(",", $qids) . ") ");
-
 $files = $DB->get_records_select('files', "filesize <> 0 AND component = 'mod_annotate' AND contextid = '$context->id' AND filearea= 'sample' AND itemid = $sid");
 foreach ($files as $file) {
   $image_url = annotate_get_image_file_url($file);
 }
 
+
+// Determine if there are MCs or Open Responses or both.
 $has_mc = false;
 $has_open = false;
 foreach ($questions as $id => $question) {
@@ -42,6 +47,7 @@ foreach ($questions as $id => $question) {
     $has_open = true;
 }
 
+// Create an index of responses keyed on the id of the questions and then the id of the user who's answer it is.
 $uids = array();
 $answer_index = array(array());
 foreach ($answers as $answer) {
@@ -82,6 +88,7 @@ echo "<img src='$image_url' alt='sample student work' />";
 echo "</div>";
 //echo "<div class='annotate-sample'><img src='$image_url' alt='student sample' /></div>";
 
+// Create the open response table.
 if ($has_open) {
   echo "<h4>Open Ended Responses</h4>";
   echo "<table class='annotate-sample-responses-table annotate-table annotate-open-table'>";
@@ -100,6 +107,8 @@ if ($has_open) {
   }
   echo "</table>";
 }
+
+// Create the MC table.
 if ($has_mc) {
   echo "<h4>Multiple Choice Responses</h4>";
   foreach ($questions as $question) {

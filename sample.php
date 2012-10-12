@@ -5,6 +5,8 @@ require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
 require_once(dirname(__FILE__).'/annotate_answer_form.php');
 
+
+// Load up the necessary objects from the URL parameters
 $sid = optional_param('sid', 0, PARAM_INT);
 $new_save = optional_param('newSave', 0, PARAM_INT);
 if ($new_save) $annotate_message = "Responses have been saved!";
@@ -14,7 +16,6 @@ $this_sample = $sample;
 if (!$sample) {
   print_error('That sample does not exist');
 }
-
 $annotate = $DB->get_record('annotate', array('id' => $sample->aid));
 $course = $DB->get_record('course',array('id' => $annotate->course));
 $cm = get_coursemodule_from_instance('annotate', $annotate->id, $course->id, false, MUST_EXIST);
@@ -35,8 +36,10 @@ annotate_set_display_type($annotate);
 
 add_to_log($course->id, 'sort', 'view', "sample.php?sid=$sample->id", $sample->name, $cm->id);
 
+// Get all samples for this annotate.
 $samples = $DB->get_records('annotate_sample', array('aid' => $annotate->id),'name');
 
+// Get all questions for this annotate.
 $questions = $DB->get_records('annotate_question', array('aid' => $annotate->id), 'weight');
 
 if (!$questions) {
@@ -45,17 +48,21 @@ if (!$questions) {
 
 $qids = array_keys($questions);
 
+// Get all responses.
 $answers = $DB->get_records_select('annotate_answer', "uid = $USER->id AND sid = $sample->id AND qid IN (" . implode(",",$qids) . ") ");
 
-
+// Get all the files assocated with the samples.
 $files = $DB->get_records_select('files', "filesize <> 0 AND component = 'mod_annotate' AND contextid = '$context->id' AND filearea= 'sample' AND itemid = $sid");
 
+// Get the urls for each of the samples.
 foreach ($files as $file) {
   $image_url = annotate_get_image_file_url($file);
 }
 
+// Load the form for annotating a sample.
 $mform = new annotate_answer_form("sample.php?sid=$sid", array('questions' => $questions));
 
+// Handle submitted form data.
 if ($responses = $mform->get_data()) {
   $DB->delete_records_select('annotate_answer',"qid IN (" . implode(",",$qids) . ") AND uid = $USER->id AND sid = $sample->id");
   

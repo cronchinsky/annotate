@@ -1,10 +1,12 @@
 <?php
-
+/**
+ * @file - page for viewing a summary of your own resposnes.
+ */
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
 
+// Load up the necessary objects based on the url parameters
 $aid = optional_param('aid', 0, PARAM_INT);
-
 $annotate = $DB->get_record('annotate', array('id' => $aid));
 $course = $DB->get_record('course',array('id' => $annotate->course));
 $cm = get_coursemodule_from_instance('annotate', $annotate->id, $course->id, false, MUST_EXIST);
@@ -17,14 +19,21 @@ require_login($course, true, $cm);
 $context = get_context_instance(CONTEXT_MODULE, $cm->id);
 add_to_log($course->id, 'sort', 'view', "myanswers.php?aid=$annotate->id", $annotate->name, $cm->id);
 
+
+// Load all of the samples tied to this annotate
 $samples = $DB->get_records('annotate_sample', array('aid' => $annotate->id),'name');
+
+// Load all of the prompts tied to this annotate
 $questions = $DB->get_records('annotate_question', array('aid' => $annotate->id), 'weight');
 $qids = array_keys($questions);
 if (!$questions) {
   print_error("This activity has no prompts yet!");
 }
+
+// Get all of this users responses.
 $answers = $DB->get_records_select('annotate_answer', "uid = $USER->id AND qid IN (" . implode(",",$qids) . ") ");
 
+// Determine if the prompts contain any MC's or any Open Response types
 $has_mc = false;
 $has_open = false;
 foreach ($questions as $id => $question) {
@@ -33,6 +42,7 @@ foreach ($questions as $id => $question) {
  else $has_open = true;
 }
 
+// Set up an array of answers keysed by the question id, and then the sample id.
 $answer_index = array(array());
 foreach ($answers as $answer) {
   if ($questions[$answer->qid]->type == 'O') {
@@ -53,6 +63,8 @@ $PAGE->requires->js('/mod/annotate/scripts/annotate-table.js');
 annotate_set_display_type($annotate);
 
 echo $OUTPUT->header();
+
+// If we have open response prompts, print a table of resposnes.
 if ($has_open) {
   echo $OUTPUT->heading('Class Chart');
   echo "<div class='annotate-wrapper'>";
@@ -76,6 +88,8 @@ if ($has_open) {
   }
   echo "</table>";
 }
+
+// If we have MC types, print a table of responses.
 if ($has_mc) {
 
   echo '<h4>Multiple Choice Responses</h4>';

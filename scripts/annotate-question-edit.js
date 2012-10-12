@@ -1,3 +1,7 @@
+/**
+ * Shows / hides the answer options textbox based on whether or not this is MC
+ * or open response.
+ */
 $(document).ready( function () {
    annotateShowHideOptions();
    
@@ -9,7 +13,7 @@ $(document).ready( function () {
 
 function annotateShowHideOptions(duration) {
     
-    if (typeof duration === 'undefined') { var duration = 0; }
+    if (typeof duration === 'undefined') { duration = 0; }
     
     if ($('.annotate-add-question-fieldset #id_type').val() == "M") {
         $('.annotate-add-question-fieldset #id_options').parent().parent().show(duration);
