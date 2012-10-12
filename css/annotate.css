@@ -166,3 +166,7 @@
 .annotate-my-responses-table tr .first {
     width:20%;
 }
+
+.annotate-attribution {
+    text-align:center;
+}
