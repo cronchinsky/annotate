@@ -39,3 +39,6 @@ $string['annotatename_help'] = 'This is the content of the help tooltip associat
 $string['annotate'] = 'Annotate';
 $string['pluginadministration'] = 'Annotate Administration';
 $string['pluginname'] = 'Annotate';
+$string['samplename'] = 'student work';
+$string['samplename_caps'] = 'Student Work';
+$string['samplename_plural'] = 'student work samples';

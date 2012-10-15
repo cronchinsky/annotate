@@ -92,7 +92,7 @@ echo "</div>";
 echo "<div class='annotate-action-links'>";
 echo "<span class='annotate-action-link'><a href='myanswers.php?aid=$annotate->id'>My class chart</a></span>";
 if (has_capability('mod/annotate:edit', $context)) {
-  echo "<span class='annotate-action-link'><a href='editsamples.php?aid=$annotate->id'>Manage student work samples</a></span>";
+  echo "<span class='annotate-action-link'><a href='editsamples.php?aid=$annotate->id'>Manage " . get_string('samplename_plural','annotate') . "</a></span>";
 }
 if (has_capability('mod/annotate:edit', $context)) {
   echo "<span class='annotate-action-link'><a href='editquestions.php?aid=$annotate->id'>Manage prompts</a></span>";

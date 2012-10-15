@@ -74,7 +74,7 @@ annotate_set_display_type($annotate);
 
 echo $OUTPUT->header();
 
-echo "<div class='annotate-sample-pager responses'><h4>Select a student work sample to view responses</h4><ul>";
+echo "<div class='annotate-sample-pager responses'><h4>Select " . get_string('samplename','annotate') . " to view responses</h4><ul>";
 foreach ($samples as $sample) {
   $class = ($sample->id == $this_sample->id) ? " class='annotate-sample-current'" : "";
   echo "<li$class><a href='sampleanswers.php?sid=$sample->id'>$sample->name</a></li>";
@@ -83,7 +83,7 @@ echo "</ul>";
 echo "</div>";
 echo "<div class='annotate-wrapper'>";
 echo "<div class='annotate-sample-image'>";
-echo "<h4>Student work sample $this_sample->name</h4>";
+echo "<h4>" . get_string('samplename','annotate') . " $this_sample->name</h4>";
 echo "<img src='$image_url' alt='sample student work' />";
 echo "</div>";
 //echo "<div class='annotate-sample'><img src='$image_url' alt='student sample' /></div>";

@@ -123,7 +123,7 @@ echo "</ul></div>";
 
 echo "<div class='annotate-wrapper'>";
 echo "<div class='annotate-sample-image'>";
-echo "<h4>Student work sample $this_sample->name</h4>";
+echo "<h4>" . get_string('samplename','annotate') . " " . $this_sample->name . "</h4>";
 echo "<img src='$image_url' alt='sample student work' />";
 echo "</div>";
 echo "<div class='annotate-questions'>";

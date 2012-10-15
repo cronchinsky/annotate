@@ -131,7 +131,7 @@ else {
 
 // Begin page output
 echo $OUTPUT->header();
-echo $OUTPUT->heading("Manage Student Work Samples for {$annotate->name}");
+echo $OUTPUT->heading("Manage " . get_string('samplename_plural','annotate') . " for {$annotate->name}");
 
 echo "<div class='annotate-wrapper'>";
 echo "<div class='annotate-sample-pager'>";

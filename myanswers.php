@@ -74,7 +74,7 @@ if ($has_open) {
     if ($question->type == 'O') {
       echo "<tr>";
       echo "<th colspan='2' class='annotate-row-label'>$question->prompt</th></tr><tr>";
-      echo "<th>Student Work Sample</th>";
+      echo "<th>" . get_string('samplename','annotate') . "</th>";
       echo "<th>Responses</th>";
       echo "</tr>";
       foreach ($answer_index[$question->id] as $sid => $answer) {
@@ -98,7 +98,7 @@ if ($has_mc) {
       echo "<table class='annotate-my-responses-table annotate-table annotate-mc-table'>";
       echo "<tr><th colspan='" . (sizeof($question->options) + 1) . "'>" . $question->prompt . "</th></tr>";
       echo "<tr>";
-      echo "<th>Student Work Sample</th>";
+      echo "<th>" . get_string('samplename','annotate') . "</th>";
       foreach ($question->options as $option) {
         echo "<th>$option</th>";
       }
