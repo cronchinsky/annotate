@@ -75,7 +75,7 @@ if ($annotate->intro) { // Conditions to show the intro can change to look for o
     echo $OUTPUT->box(format_module_intro('annotate', $annotate, $cm->id), 'generalbox mod_introbox', 'annotateintro');
 }
 echo "<div class='annotate-sample-pager'>";
-echo "<h4>Select a work sample to annotate</h4>";
+echo "<h4>Select a " . get_string('samplename','annotate') . " to annotate</h4>";
 if ($samples) {
   echo "<ul>";
   foreach ($samples as $sample) {

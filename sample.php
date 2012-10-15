@@ -113,7 +113,7 @@ echo "<div class='annotate-message'><h3>";
 echo (isset($annotate_message)) ? $annotate_message : "";
 echo "</h3></div>";
 echo "<div class='annotate-sample-pager responses'>";
-echo "<h4>Select a work sample to annotate</h4>";
+echo "<h4>Select a " . get_string('samplename','annotate') . " to annotate</h4>";
 echo "<ul>";
   foreach ($samples as $sample) {
     $class = ($sample->id == $sid) ? " class='annotate-sample-current' " : "";
@@ -123,7 +123,7 @@ echo "</ul></div>";
 
 echo "<div class='annotate-wrapper'>";
 echo "<div class='annotate-sample-image'>";
-echo "<h4>" . get_string('samplename','annotate') . " " . $this_sample->name . "</h4>";
+echo "<h4>" . get_string('samplename_caps','annotate') . " " . $this_sample->name . "</h4>";
 echo "<img src='$image_url' alt='sample student work' />";
 echo "</div>";
 echo "<div class='annotate-questions'>";
