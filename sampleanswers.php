@@ -95,10 +95,11 @@ if ($has_open) {
   foreach ($questions as $question) {
     if ($question->type == 'O') {
       if (isset($answer_index[$question->id])) {
-        echo "<tr><th colspan='2'>$question->prompt</th></tr>";
-        echo "<tr><th>Participant</th><th>Response</th></tr>";
+        echo "<tr><th colspan='1'>$question->prompt</th></tr>";
+        echo "<tr><th>Response</th></tr>";
         foreach ($answer_index[$question->id] as $uid => $answer) {
-          echo "<tr><td class='annotate-row-label'>" . $users[$uid]->username . "</td>";
+          echo "<tr>";
+          //<td class='annotate-row-label'>" . $users[$uid]->username . "</td>";
           echo "<td>" . $answer->answer . "</td>";
           echo "</tr>";
         }
@@ -114,16 +115,16 @@ if ($has_mc) {
   foreach ($questions as $question) {
     if ($question->type == 'M') {
       echo "<table class='annotate-sample-responses-table annotate-table annotate-mc-table'>";
-      echo "<tr><th colspan='" . (sizeof($question->options) + 1) . "'>" . $question->prompt . "</th></tr>";
+      echo "<tr><th colspan='" . (sizeof($question->options)) . "'>" . $question->prompt . "</th></tr>";
       echo "<tr>";
-      echo "<th>Participant</th>";
+     //echo "<th>Participant</th>";
       foreach ($question->options as $option) {
         echo "<th>$option</th>";
       }
       if (isset($answer_index[$question->id])) {
         foreach ($answer_index[$question->id] as $uid => $answer) {
           echo "<tr>";
-          echo "<td class='annotate-row-label'>" . $users[$uid]->username . "</td>";
+          //echo "<td class='annotate-row-label'>" . $users[$uid]->username . "</td>";
           foreach ($question->options as $index => $option) {
             if (isset($answer[$index])) {
               echo "<td>Y</td>";
