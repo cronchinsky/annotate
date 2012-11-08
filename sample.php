@@ -32,6 +32,10 @@ $PAGE->set_title(format_string($annotate->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($context);
 $PAGE->requires->css('/mod/annotate/css/annotate.css');
+$PAGE->requires->css('/mod/annotate/css/jquery-ui.css');
+$PAGE->requires->js('/mod/annotate/scripts/jquery.min.js');
+$PAGE->requires->js('/mod/annotate/scripts/jquery-ui.min.js');
+$PAGE->requires->js('/mod/annotate/scripts/annotate-image-preview.js');
 annotate_set_display_type($annotate);
 
 add_to_log($course->id, 'sort', 'view', "sample.php?sid=$sample->id", $sample->name, $cm->id);
@@ -113,7 +117,7 @@ echo "<div class='annotate-message'><h3>";
 echo (isset($annotate_message)) ? $annotate_message : "";
 echo "</h3></div>";
 echo "<div class='annotate-sample-pager responses'>";
-echo "<h4>Select a work sample to annotate</h4>";
+echo "<h4>Select a " . get_string('samplename','annotate') . " to annotate</h4>";
 echo "<ul>";
   foreach ($samples as $sample) {
     $class = ($sample->id == $sid) ? " class='annotate-sample-current' " : "";
@@ -123,8 +127,9 @@ echo "</ul></div>";
 
 echo "<div class='annotate-wrapper'>";
 echo "<div class='annotate-sample-image'>";
-echo "<h4>Student work sample $this_sample->name</h4>";
-echo "<img src='$image_url' alt='sample student work' />";
+echo "<h4>" . get_string('samplename_caps','annotate') . " " . $this_sample->name . "</h4>";
+echo "<div class='annotate-sample-image-wrapper'><img src='$image_url' alt='sample student work' />";
+echo '<a href="' . $image_url . '" title="View larger image" class="ui-icon ui-icon-magnifying">View larger</a></div>';
 echo "</div>";
 echo "<div class='annotate-questions'>";
 $mform->display();

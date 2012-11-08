@@ -34,7 +34,7 @@ $confirm = optional_param('confirm', 0, PARAM_INT); // student work ID
 // Get the sample from the sid
 $sample = $DB->get_record('annotate_sample', array('id' => $sid));
 if (!$sample) {
-  print_error('That student work does not exist.  It cannot be deleted');
+  print_error('That ' . get_string('samplename','annotate') . ' does not exist.  It cannot be deleted');
 }
 
 // Get the annotate activity, course, etc from the sample.
@@ -50,7 +50,7 @@ else {
 // Moodley goodness.
 require_login($course, true, $cm);
 $context = get_context_instance(CONTEXT_MODULE, $cm->id);
-add_to_log($course->id, 'annotate', 'view', "deletesample.php?sid=$sid", "Deleting student work", $cm->id);
+add_to_log($course->id, 'annotate', 'view', "deletesample.php?sid=$sid", "Deleting " . get_string('samplename','annotate'), $cm->id);
 
 
 // Only editors can see this page.

@@ -75,7 +75,7 @@ if ($annotate->intro) { // Conditions to show the intro can change to look for o
     echo $OUTPUT->box(format_module_intro('annotate', $annotate, $cm->id), 'generalbox mod_introbox', 'annotateintro');
 }
 echo "<div class='annotate-sample-pager'>";
-echo "<h4>Select a work sample to annotate</h4>";
+echo "<h4>Select a " . get_string('samplename','annotate') . " to annotate</h4>";
 if ($samples) {
   echo "<ul>";
   foreach ($samples as $sample) {
@@ -92,7 +92,7 @@ echo "</div>";
 echo "<div class='annotate-action-links'>";
 echo "<span class='annotate-action-link'><a href='myanswers.php?aid=$annotate->id'>My class chart</a></span>";
 if (has_capability('mod/annotate:edit', $context)) {
-  echo "<span class='annotate-action-link'><a href='editsamples.php?aid=$annotate->id'>Manage student work samples</a></span>";
+  echo "<span class='annotate-action-link'><a href='editsamples.php?aid=$annotate->id'>Manage " . get_string('samplename_plural','annotate') . "</a></span>";
 }
 if (has_capability('mod/annotate:edit', $context)) {
   echo "<span class='annotate-action-link'><a href='editquestions.php?aid=$annotate->id'>Manage prompts</a></span>";
