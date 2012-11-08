@@ -47,7 +47,9 @@
 .annotate .fitem .felement {
     margin-left: 0;
     width: 100%;
+    line-height: 1em;
 }
+
 
 .annotate-manage-form-wrapper {
 	padding: 20px;
