@@ -16,7 +16,7 @@ $(function () {
             $modal.dialog("option", "position", "top");
         } else {
             var img = $( "<img class='annotate-modal-image' alt='" + title + "' style='display: none; padding: 8px;' />" )
-            .attr( "src", src ).appendTo( "body" );
+            .appendTo( "body" );
             img.load( function () {
                 $(this).dialog({
                     title: $(this).attr('alt'),
@@ -24,7 +24,7 @@ $(function () {
                     modal: true
                 });
                 $(this).dialog("option", "position", "top");
-            });
+            }).attr('src',src);
 
 
         }
